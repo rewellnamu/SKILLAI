@@ -1,0 +1,333 @@
+<div class="dashboard-layout">
+  <header class="page-header">
+    <div class="logo">KAZI-AI</div>
+    <nav class="header-nav">
+      <button
+        type="button"
+        class="header-button chat-btn"
+        onclick="toggleChatBot()"
+      >
+        Bot Chat
+      </button>
+    </nav>
+  </header>
+
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="active">
+            <a href="#">
+              <i class="fas fa-user fa-fw"></i>
+              <span class="link-text">Profile</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="javascript:void(0)" (click)="navigateToJobseekerBoard()">
+              <i class="fas fa-search fa-fw"></i>
+              <span class="link-text">Find Jobs</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" (click)="navigateToJobseekerBoard()">
+              <i class="fas fa-chart-line fa-fw"></i>
+              <span class="link-text">Career Path</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="dashboard-content">
+      <section class="profile-card">
+        <div class="profile-header">
+          <img
+            src="1645409540494.jpeg"
+            alt="Profile Picture"
+            class="profile-picture"
+          />
+          <div class="profile-info">
+            <h2>Rewell Developer</h2>
+            <p class="profile-title">Software Developer/Engineer</p>
+            <button class="edit-profile-btn">Edit Profile</button>
+          </div>
+        </div>
+
+        <div class="profile-section about-section">
+          <h3>About</h3>
+          <p>
+            I am a software developer/engineer with a passion for building
+            efficient and scalable software solutions. I enjoy tackling complex
+            problems and turning ideas into functional applications through
+            code.
+          </p>
+        </div>
+
+        <div class="profile-section skills-section">
+          <h3>Professional Skills</h3>
+          <ul class="skills-list">
+            <li class="skill-item">JavaScript</li>
+            <li class="skill-item">Python</li>
+            <li class="skill-item">Machine Learning</li>
+            <li class="skill-item">Data Analysis</li>
+            <li class="skill-item">Web Development</li>
+            <li class="skill-item">Cloud Computing</li>
+          </ul>
+        </div>
+
+        <div class="profile-section contact-section">
+          <h3>Contact</h3>
+          <p>Riwenamu&#64;gmail.com</p>
+          <p>Kenya, Nyeri (Open to Remote)</p>
+        </div>
+
+        <section class="profile-section chart-container">
+          <h3>Job Analysis</h3>
+          <canvas id="jobAnalysisChart"></canvas>
+        </section>
+
+        <section class="profile-section chart-container">
+          <h3>Skill Distribution</h3>
+          <canvas id="skillDistributionChart"></canvas>
+        </section>
+
+        <section class="profile-section chart-container">
+          <h3>Career Growth Trends</h3>
+          <canvas id="careerGrowthChart"></canvas>
+        </section>
+
+        <section class="profile-section chart-container">
+          <h3>Professional Visual Charts</h3>
+          <canvas id="professionalChart1"></canvas>
+          <canvas id="professionalChart2"></canvas>
+        </section>
+      </section>
+
+      <div
+        id="chatbot-container"
+        class="chatbot-container"
+        style="display: none"
+      >
+        <div class="chatbot-header">
+          <h3>Chat with KAZI-AI</h3>
+          <button class="close-chatbot-btn" onclick="toggleChatBot()">X</button>
+        </div>
+        <div class="chatbot-body">
+          <p>Welcome! How can I assist you today?</p>
+          <!-- Chatbot messages will go here -->
+        </div>
+        <div class="chatbot-footer">
+          <input
+            type="text"
+            placeholder="Type your message..."
+            class="chatbot-input"
+          />
+          <button class="send-chatbot-btn">Send</button>
+        </div>
+      </div>
+
+      <div class="logout-area">
+        <button class="logout-button" (click)="logout()">LOG OUT</button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const ctx = document.getElementById("jobAnalysisChart").getContext("2d");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: [
+          "Software Dev",
+          "Data Analyst",
+          "ML Engineer",
+          "Web Dev",
+          "Cloud Engineer",
+        ],
+        datasets: [
+          {
+            label: "Job Openings",
+            data: [120, 80, 60, 100, 90],
+            backgroundColor: [
+              "#4a90e2",
+              "#6a1b9a",
+              "#c74440",
+              "#2575fc",
+              "#3f3f3f",
+            ],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    // Skill Distribution Pie Chart
+    const skillCtx = document
+      .getElementById("skillDistributionChart")
+      .getContext("2d");
+    new Chart(skillCtx, {
+      type: "pie",
+      data: {
+        labels: [
+          "JavaScript",
+          "Python",
+          "Machine Learning",
+          "Data Analysis",
+          "Web Development",
+          "Cloud Computing",
+        ],
+        datasets: [
+          {
+            data: [20, 15, 25, 10, 20, 10],
+            backgroundColor: [
+              "#4a90e2",
+              "#6a1b9a",
+              "#c74440",
+              "#2575fc",
+              "#3f3f3f",
+              "#f39c12",
+            ],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+      },
+    });
+
+    // Career Growth Line Chart
+    const growthCtx = document
+      .getElementById("careerGrowthChart")
+      .getContext("2d");
+    new Chart(growthCtx, {
+      type: "line",
+      data: {
+        labels: ["2018", "2019", "2020", "2021", "2022", "2023"],
+        datasets: [
+          {
+            label: "Career Growth",
+            data: [50, 60, 70, 80, 90, 100],
+            borderColor: "#4a90e2",
+            backgroundColor: "rgba(74, 144, 226, 0.2)",
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    // Professional Chart 1
+    const professionalCtx1 = document
+      .getElementById("professionalChart1")
+      .getContext("2d");
+    new Chart(professionalCtx1, {
+      type: "radar",
+      data: {
+        labels: [
+          "Leadership",
+          "Teamwork",
+          "Communication",
+          "Problem Solving",
+          "Creativity",
+        ],
+        datasets: [
+          {
+            label: "Skill Proficiency",
+            data: [80, 90, 85, 75, 70],
+            backgroundColor: "rgba(74, 144, 226, 0.2)",
+            borderColor: "#4a90e2",
+            borderWidth: 2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          r: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    // Professional Chart 2
+    const professionalCtx2 = document
+      .getElementById("professionalChart2")
+      .getContext("2d");
+    new Chart(professionalCtx2, {
+      type: "doughnut",
+      data: {
+        labels: [
+          "Project Management",
+          "Technical Skills",
+          "Soft Skills",
+          "Certifications",
+        ],
+        datasets: [
+          {
+            data: [30, 40, 20, 10],
+            backgroundColor: ["#4a90e2", "#6a1b9a", "#c74440", "#2575fc"],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+      },
+    });
+  });
+</script>
+
+<script>
+  function toggleChatBot() {
+    const chatbot = document.getElementById("chatbot-container");
+    chatbot.style.display = chatbot.style.display === "none" ? "block" : "none";
+  }
+</script>
