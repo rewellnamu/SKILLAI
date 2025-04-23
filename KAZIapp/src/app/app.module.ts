@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   imports: [
     BrowserModule,
-   
+   AppRoutingModule,
     AppComponent, // Import standalone component here
   ],
   providers: [],
