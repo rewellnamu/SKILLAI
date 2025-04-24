@@ -1,0 +1,35 @@
+name: JavaScript CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x' # Or your preferred Node.js version
+
+      - name: Install dependencies
+        run: npm install # Or yarn install if you use Yarn
+
+      - name: Lint with ESLint
+        run: npm run lint # Assuming you have a "lint" script in your package.json
+
+      - name: Format with Prettier
+        run: npm run format:check # Assuming you have a "format:check" script
+
+      - name: Run tests
+        run: npm run test # Assuming you have a "test" script
+
+      - name: Build project (if applicable)
+        run: npm run build # Assuming you have a "build" script
