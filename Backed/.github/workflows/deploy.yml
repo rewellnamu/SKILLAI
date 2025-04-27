@@ -1,43 +1,28 @@
-name: Deploy to EC2
+name: CI - Test Express Backend
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY || 'MISSING_SECRET' }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # or whatever version you're using
 
-      - name: Add EC2 to known hosts
-        run: |
-          ssh-keyscan -H 13.61.182.189 >> ~/.ssh/known_hosts
+      - name: Install dependencies
+        run: npm install
 
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@13.61.182.189 << 'EOF'
-            echo "🧹 Stopping and removing existing container..."
-            sudo docker rm -f backend || true
-
-            echo "🗑 Removing old image..."
-            sudo docker rmi karoshalex0873/skillmatch_ai || true
-
-            echo "📦 Pulling latest image..."
-            sudo docker pull karoshalex0873/skillmatch_ai
-
-            echo "🚀 Starting new container..."
-            sudo docker run -d -p 80:80 --name backend karoshalex0873/skillmatch_ai
-
-            echo "✅ Deployment done!"
-            sudo docker ps
-          EOF
+      - name: Run tests
+        run: npm test
