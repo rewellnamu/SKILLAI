@@ -19,7 +19,7 @@ const applyDef = AppDataSource.getRepository(Application)
 const InterDef = AppDataSource.getRepository(Interview)
 // AI
 if (!process.env.GOOGLE_GEMINI_API_KEY) {
-  throw new Error("GOOGLE_GEMINI_API_KEY is not defined in the environment variables.");
+  throw new Error("GOO.");
 }
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
