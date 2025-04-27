@@ -19,7 +19,7 @@ const applyDef = AppDataSource.getRepository(Application)
 const InterDef = AppDataSource.getRepository(Interview)
 // AI
 if (!process.env.GOOGLE_GEMINI_API_KEY) {
-  throw new Error("GOO.");
+  throw new Error("");
 }
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
