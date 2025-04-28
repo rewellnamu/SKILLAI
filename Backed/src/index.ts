@@ -17,8 +17,9 @@ const app = express();
 
 // connect to the database
 
+
 // load port from .env
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 // middleware to parse json request bodies
 app.use(express.json());
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(cors({
-  origin: ["http://localhost:4200", "http://dkskillmatch.s3-website.eu-north-1.amazonaws.com", "https://skill-matc-ai-frontend.vercel.app/"],
+  origin: ["http://localhost:4200"],
   methods: ["GET", "POST", "PUT", "DELETE","PATCH" ,"OPTIONS"], // Include OPTIONS
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
